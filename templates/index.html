@@ -1,0 +1,165 @@
+<html
+  lang="en"
+  style="
+    background-color: #f7f7f7;
+"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="/static/style.css" type="text/css" />
+    <title>Document</title>
+  </head>
+  <body
+    style="
+    margin: 0;
+    /* padding: 0 14px; */
+"
+  >
+    <p
+      style="
+    text-align: center;
+    color: #fff;
+    background: #71a4bc;
+    padding: 15px 0;
+    margin: 0;
+    font-weight: 800;
+"
+    >
+      自动文摘
+    </p>
+    <div
+      style="
+    padding: 0 15px;
+"
+    >
+      <textarea
+        id="newsarea"
+        style="
+    width: 70%;
+    height: 250px;
+    margin-top: 15px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    background: #fafafa;
+    font-size: 1.3em;
+"
+        placeholder="请输入新闻内容..."
+      ></textarea>
+      <button
+        style="
+    margin-left: 30px;
+    position: absolute;
+    /* top: -125px; */
+    transform: translate(0, 107px);
+    height: 40px;
+    width: 80px;
+    border: none;
+    background: #fafafa;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0px 5px #c7c7c7;
+"
+        onclick="getSummary()"
+      >
+        生成
+      </button>
+      <button
+        style="
+    position: relative;
+    top: -18px;
+    left: -72px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #aaa;
+    background: white;
+    color: #ccc;
+    padding: 0px 15px;
+    /* width: 25px; */
+    height: 25px;
+    /* font-size: 1.5em; */
+    cursor: pointer;
+    border: none;
+"
+        onclick="fileHandler()"
+      >
+        选择
+      </button>
+    </div>
+    <div
+      style="margin-top:30px;
+    margin-bottom:20px;"
+    >
+      <span
+        style="position: relative;
+    left:15px"
+        >输出：</span
+      ><span style="position: absolute;left:70%;margin-left:30px;">分数：</span>
+    </div>
+    <div
+      style="
+    padding: 0 15px;
+"
+    ></div>
+    <script>
+      let newsContent = "";
+      let summaryDiv = [];
+      let picDiv = [];
+      window.onload = () => {
+        for (let i = 0; i < 3; i++) {
+          const div = document.createElement("div");
+          const pic = document.createElement("img");
+          div.className = "output-box";
+          pic.src = "";
+          pic.alt = "";
+          summaryDiv.push(div);
+          picDiv.push(pic);
+          document.body.appendChild(div);
+          document.body.appendChild(pic);
+        }
+      };
+      document.getElementById("newsarea").onchange = e => {
+        newsContent = e.target.value;
+      };
+      function fileHandler() {
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = ".story";
+        fileInput.click();
+        fileInput.onchange = event => {
+          for (let i = 0; i < event.target.files.length; i++) {
+            const fileURI = event.target.files[i];
+            const reader = new FileReader();
+            reader.readAsText(fileURI);
+            reader.onload = e => {
+              const result = e.target.result;
+              newsContent = result;
+              document.getElementById("newsarea").innerText = result;
+            };
+          }
+        };
+      }
+      function getSummary() {
+        fetch("/getSummary/", {
+          body: JSON.stringify({
+            content: newsContent
+          }),
+          headers: {
+            "content-type": "application/json"
+          },
+          method: "POST"
+        })
+          .then(res => res.json())
+          .then(res => {
+            console.log(res);
+            res.summary.forEach((item, index) => {
+              summaryDiv[index].innerText = item;
+            });
+            res.image.forEach((item,index)=>{
+              picDiv[index].src=item;
+            })
+          });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+.output-box {
+  /* display: inline-block; */
+  width: 70%;
+  height: 125px;
+  display: block;
+  border: 1px solid #eee;
+  background: #fafafa;
+  border-radius: 5px;
+}
