@@ -1,7 +1,9 @@
 .output-box {
   /* display: inline-block; */
+  /* position:absolute; */
+  overflow-y:auto;
   width: 70%;
-  height: 125px;
+  min-height: 125px;
   display: block;
   border: 1px solid #eee;
   background: #fafafa;
