@@ -23,12 +23,13 @@ def getSummary(request):
     res={
         "summary":[
             summary1,
+            score,
             data['content'],
             'summary3'
         ],
         "image":[
             "/static/1.jpg",
-            "/static/1.jpg"
+            "/static/1.jpg",
 
         ]
     }

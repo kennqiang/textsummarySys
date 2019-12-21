@@ -106,8 +106,15 @@
       let newsContent = "";
       let summaryDiv = [];
       let picDiv = [];
+      let scoreDiv;
       window.onload = () => {
-        for (let i = 0; i < 3; i++) {
+        const div1 = document.createElement("div");
+        const div2 = document.createElement("div");
+        summaryDiv.push(div1);
+        summaryDiv.push(div2);
+        document.body.appendChild(div1);
+        document.body.appendChild(div2);
+        for (let i = 0; i < 2; i++) {
           const div = document.createElement("div");
           const pic = document.createElement("img");
           div.className = "output-box";
