@@ -91,9 +91,16 @@
     margin-bottom:20px;"
     >
       <span
-        style="position: relative;
-    left:15px"
-        >输出：</span
+        style="
+    position: relative;
+    left:15px;
+    background: #fafafa;
+    color: #559096;
+    border-radius: 5px;
+    /* box-shadow: 0 0px 5px #c7c7c7; */
+    padding: 5px 15px;
+    "
+        >摘要（tf-idf方法）</span
       >
       <!-- <span style="position: absolute;left:70%;margin-left:30px;">分数：</span> -->
     </div>
@@ -110,6 +117,8 @@
       window.onload = () => {
         const div1 = document.createElement("div");
         const div2 = document.createElement("div");
+        div1.className = "output-box";
+        div2.className = "score-box";
         summaryDiv.push(div1);
         summaryDiv.push(div2);
         document.body.appendChild(div1);
@@ -163,9 +172,9 @@
             res.summary.forEach((item, index) => {
               summaryDiv[index].innerText = item;
             });
-            res.image.forEach((item,index)=>{
-              picDiv[index].src=item;
-            })
+            res.image.forEach((item, index) => {
+              picDiv[index].src = item;
+            });
           });
       }
     </script>
