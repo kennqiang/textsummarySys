@@ -4,6 +4,7 @@ import json
 import myapp.tf_idf_summary as my_summary1
 from myapp.TextRank import TextRank
 from myapp.seq2seq import seq2seq
+import manage
 
 def index(request):
     return render(request,'index.html')
@@ -17,12 +18,12 @@ def getSummary(request):
     summary1=result[0]
     score=result[1]
 
-    ob=TextRank(data['content'])
-    summary2=ob.best(1)
-    # summary_array.append(summary1)
-    # summary2=textrank_summary()
-
-    ob2=seq2seq()
+    ob1=TextRank(data['content'])
+    summary2=ob1.best(1)
+    
+    #sequence2sequence方法
+    # ob2=seq2seq()
+    ob2=manage.seqob
     summary3=ob2.predict(data['content'])
 
     res={
