@@ -88,53 +88,159 @@
     </div>
     <div
       style="margin-top:30px;
-    margin-bottom:20px;"
+    margin-bottom:5px;"
     >
       <span
         style="
     position: relative;
     left:15px;
-    background: #fafafa;
     color: #559096;
     border-radius: 5px;
     /* box-shadow: 0 0px 5px #c7c7c7; */
     padding: 5px 15px;
     "
-        >摘要（tf-idf方法）</span
+        >摘要1（tf-idf方法）</span
       >
       <!-- <span style="position: absolute;left:70%;margin-left:30px;">分数：</span> -->
     </div>
     <div
+      id="summary1"
+      ,
       style="
-    padding: 0 15px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      margin-left: 15px;
+    padding: 5px 15px;
+  overflow-y:auto;
+  width: 70%;
+  min-height: 125px;
+  display: block;
+  border: 1px solid #eee;
+  background: #fafafa;
+  border-radius: 5px;
 "
     ></div>
+
+    <div
+      id="score"
+      ,
+      style="margin-top: 10px;
+      margin-bottom: 10px;
+      margin-left: 15px;
+      padding:5px 15px;
+    width: 70%;
+    height: 75px;
+    display: block;
+    border: 1px solid #eee;
+    background: #dee2ea;
+    border-radius: 5px;"
+    ></div>
+    <span
+        style="
+    position: relative;
+    left:15px;
+    color: #559096;
+    border-radius: 5px;
+    /* box-shadow: 0 0px 5px #c7c7c7; */
+    padding: 5px 15px;
+    "
+        >摘要2（TextRank方法）</span
+      >
+    <div
+      id="summary2"
+      ,
+      style="margin-top: 10px;
+      margin-bottom: 10px;
+      margin-left: 15px;
+      padding: 5px 15px;
+    overflow-y:auto;
+    width: 70%;
+    min-height: 125px;
+    display: block;
+    border: 1px solid #eee;
+    background: #fafafa;
+    border-radius: 5px;"
+    ></div>
+    <img id="image2" ,src="/static/1.jpg" />
+    <span
+        style="
+    position: relative;
+    left:15px;
+    color: #559096;
+    border-radius: 5px;
+    /* box-shadow: 0 0px 5px #c7c7c7; */
+    padding: 5px 15px;
+    "
+        >摘要3（sequence-to-sequence方法）</span
+      >
+    <div
+      id="summary3"
+      ,
+      style="margin-top: 10px;
+      margin-bottom: 10px;
+      margin-left: 15px;
+      padding: 5px 15px;
+    overflow-y:auto;
+    width: 70%;
+    min-height: 125px;
+    display: block;
+    border: 1px solid #eee;
+    background: #fafafa;
+    border-radius: 5px;"
+    ></div>
+    <img id="image3" ,src="/static/1.jpg" />
+
     <script>
       let newsContent = "";
-      let summaryDiv = [];
-      let picDiv = [];
-      let scoreDiv;
-      window.onload = () => {
-        const div1 = document.createElement("div");
-        const div2 = document.createElement("div");
-        div1.className = "output-box";
-        div2.className = "score-box";
-        summaryDiv.push(div1);
-        summaryDiv.push(div2);
-        document.body.appendChild(div1);
-        document.body.appendChild(div2);
-        for (let i = 0; i < 2; i++) {
-          const div = document.createElement("div");
-          const pic = document.createElement("img");
-          div.className = "output-box";
-          pic.src = "";
-          pic.alt = "";
-          summaryDiv.push(div);
-          picDiv.push(pic);
-          document.body.appendChild(div);
-          document.body.appendChild(pic);
-        }
-      };
+      // let summaryDiv = [];
+      // let picDiv = [];
+      // let scoreDiv;
+      // window.onload = () => {
+      //   const div1 = document.createElement("div");
+      //   const score_text=document.createElement("span");
+      //   score_text.style.position="relative";
+      //   score_text.style.left="15px";
+      //   score_text.style.color="#559096";
+      //   score_text.style.padding="5px 15px";
+      //   const name=document.createTextNode("tf-idf 分数：");
+      //   score_text.appendChild(name);
+      //   const div2 = document.createElement("div");
+      //   div1.className = "output-box";
+      //   div2.className = "score-box";
+      //   summaryDiv.push(div1);
+      //   summaryDiv.push(div2);
+      //   document.body.appendChild(div1);
+      //   document.body.appendChild(score_text)
+      //   document.body.appendChild(div2);
+      //   for (let i = 0; i < 2; i++) {
+      //     const score_text1=document.createElement("span");
+      //     score_text1.style.position="relative";
+      //     score_text1.style.left="15px";
+      //     score_text1.style.color="#559096";
+      //     score_text1.style.padding="5px 15px";
+      //     let exp="";
+      //     if(i==0){
+      //       exp="(TextRank方法)";
+      //       console.log(exp);
+      //     }
+      //     else{
+      //       exp="(sequence-to-sequence方法)";
+      //     }
+      //     let num=i+1;
+      //     const name1=document.createTextNode("摘要"+num+exp);
+      //     score_text1.appendChild(name1);
+      //     const div = document.createElement("div");
+      //     const pic = document.createElement("img");
+      //     div.className = "output-box";
+      //     pic.src = "";
+      //     pic.alt = "";
+      //     summaryDiv.push(div);
+      //     picDiv.push(pic);
+      //     document.body.appendChild(score_text1);
+      //     document.body.appendChild(div);
+      //     document.body.appendChild(pic);
+      //   }
+      // };
       document.getElementById("newsarea").onchange = e => {
         newsContent = e.target.value;
       };
@@ -170,10 +276,26 @@
           .then(res => {
             console.log(res);
             res.summary.forEach((item, index) => {
-              summaryDiv[index].innerText = item;
+              if (index == 0) {
+                document.getElementById("summary1").innerText = item;
+              } else if (index == 1) {
+                document.getElementById("score").innerText = item;
+              } else if (index == 2) {
+                document.getElementById("summary2").innerText = item;
+              } else if (index == 3) {
+                document.getElementById("summary3").innerText = item;
+              } else {
+                console.log("返回值超过可接收量");
+              }
+              // summaryDiv[index].innerText = item;
             });
             res.image.forEach((item, index) => {
-              picDiv[index].src = item;
+              if (index == 0) {
+                document.getElementById("image2").src = item;
+              } else if (index == 1) {
+                document.getElementById("image3").src = item;
+              }
+              // picDiv[index].src = item;
             });
           });
       }
